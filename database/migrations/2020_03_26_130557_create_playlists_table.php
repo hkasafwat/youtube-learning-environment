@@ -15,7 +15,14 @@ class CreatePlaylistsTable extends Migration
     {
         Schema::create('playlists', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('user_id')->nullable();
+            $table->timestamp('publish_date')->nullable();
+            $table->string('e_tag')->nullable();
+            $table->string('title')->nullable();
+            $table->text('description')->nullable();
+            $table->string('thumbnail')->nullable();
+            $table->text('video_iframe')->nullable();
+            $table->string('channel_title')->nullable();
         });
     }
 

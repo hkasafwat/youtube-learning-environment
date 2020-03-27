@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Http;
 
 class PlaylistController extends Controller
 {
-    public $api_key = 'AIzaSyBnjflFKz4R-DhcwNIbxJ8ioOeIHdrTWns';
     public $api_url = 'https://www.googleapis.com/youtube/v3/';
 
     /**
@@ -40,6 +39,22 @@ class PlaylistController extends Controller
     public function store(Request $request)
     {
         //
+        $playlistInfo = $this->getPlaylistInfo();
+
+        $playlist = new Playlist;
+
+        $playlist->publish_date = date("Y-m-d H:i:s", strtotime($playlistInfo['publishDate']));
+        $playlist->e_tag = $playlistInfo['e_tag'];
+        $playlist->title = $playlistInfo['title'];
+        $playlist->description = $playlistInfo['description'];
+        $playlist->thumbnail = $playlistInfo['thumbnail'];
+        $playlist->video_iframe = $playlistInfo['video_iframe'];
+        $playlist->channel_title = $playlistInfo['channelTitle'];
+
+        $playlist->save();
+        // $date =$playlistInfo['publishDate'];
+        
+        // dump(date("Y/M/D h:m:s", strtotime($playlistInfo['publishDate'])));
     }
 
     /**
@@ -102,10 +117,10 @@ class PlaylistController extends Controller
         $playlist['title'] = $playlistSnippetJson['items'][0]['snippet']['title'];
         $playlist['description'] = $playlistSnippetJson['items'][0]['snippet']['description'];
         $playlist['thumbnail'] = $playlistSnippetJson['items'][0]['snippet']['thumbnails']['maxres']['url'];
-        $playlist['player_iframe'] = $playlistPlayerJson['items'][0]['player']['embedHtml'];
+        $playlist['video_iframe'] = $playlistPlayerJson['items'][0]['player']['embedHtml'];
         $playlist['channelTitle'] = $playlistSnippetJson['items'][0]['snippet']['channelTitle'];
 
-        dump($playlist);
+        return $playlist;
     }
 
     

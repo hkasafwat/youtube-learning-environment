@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Playlists extends Model
+class Playlist extends Model
 {
-    //
+    public $timestamps = false;
 }

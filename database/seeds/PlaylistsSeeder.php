@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class PlaylistsSeeder extends Seeder
+class PlaylistSeeder extends Seeder
 {
     /**
      * Run the database seeds.

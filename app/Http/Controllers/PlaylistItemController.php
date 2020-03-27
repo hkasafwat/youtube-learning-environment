@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class PlaylistItemController extends Controller
 {
-    public $api_key = 'AIzaSyBnjflFKz4R-DhcwNIbxJ8ioOeIHdrTWns';
     public $api_url = 'https://www.googleapis.com/youtube/v3/';
     
     /**
