@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 
 class PlaylistItemController extends Controller
 {
-    public $api_url = 'https://www.googleapis.com/youtube/v3/';
+    public function __constructor() {
+        $api_key = getenv('YOUTUBE_API_KEY');
+        $api_url = 'https://www.googleapis.com/youtube/v3/';
+    }
     
     /**
      * Display a listing of the resource.

@@ -8,7 +8,13 @@ use Illuminate\Support\Facades\Http;
 
 class PlaylistController extends Controller
 {
-    public $api_url = 'https://www.googleapis.com/youtube/v3/';
+    public $api_key;
+    public $api_url;    
+
+    public function __construct() {
+        $this->api_key = config('services.youtube.key');
+        $this->api_url = 'https://www.googleapis.com/youtube/v3/';
+    }
 
     /**
      * Display a listing of the resource.
@@ -38,7 +44,6 @@ class PlaylistController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $playlistInfo = $this->getPlaylistInfo();
 
         $playlist = new Playlist;
@@ -52,9 +57,6 @@ class PlaylistController extends Controller
         $playlist->channel_title = $playlistInfo['channelTitle'];
 
         $playlist->save();
-        // $date =$playlistInfo['publishDate'];
-        
-        // dump(date("Y/M/D h:m:s", strtotime($playlistInfo['publishDate'])));
     }
 
     /**
