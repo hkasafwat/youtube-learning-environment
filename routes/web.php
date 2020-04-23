@@ -12,8 +12,13 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/sign-in', function () {
+    return view('welcome');
+});
 
-Route::get('/', 'PlaylistController@store');
+
+
+Route::get('/', 'PlaylistController@index');
 
 Auth::routes();
 
@@ -22,3 +27,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/user/playlists','PlaylistController@index');

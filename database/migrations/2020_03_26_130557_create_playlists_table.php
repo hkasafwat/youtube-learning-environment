@@ -17,6 +17,7 @@ class CreatePlaylistsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable();
             $table->timestamp('publish_date')->nullable();
+            $table->string('playlist_id');
             $table->string('e_tag')->nullable();
             $table->string('title')->nullable();
             $table->text('description')->nullable();

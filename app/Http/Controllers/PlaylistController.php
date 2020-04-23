@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Playlist;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
 
 class PlaylistController extends Controller
 {
@@ -23,7 +25,11 @@ class PlaylistController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user();
+
+        $item = $user->playlists()->get();
+        
+        return view('userPlaylists', ['playlist' => $item]);
     }
 
     /**
@@ -44,11 +50,15 @@ class PlaylistController extends Controller
      */
     public function store(Request $request)
     {
-        $playlistInfo = $this->getPlaylistInfo();
+        $playlist_id = 'PLpcSpRrAaOaoIqHQddZOdbRrzr5dJtgSs';
+
+        $playlistInfo = $this->getPlaylistInfo($playlist_id);
 
         $playlist = new Playlist;
 
+        $playlist->user_id = Auth::user()->id;
         $playlist->publish_date = date("Y-m-d H:i:s", strtotime($playlistInfo['publishDate']));
+        $playlist->playlist_id = $playlist_id;
         $playlist->e_tag = $playlistInfo['e_tag'];
         $playlist->title = $playlistInfo['title'];
         $playlist->description = $playlistInfo['description'];
@@ -104,12 +114,11 @@ class PlaylistController extends Controller
         //
     }
 
-    public function getPlaylistInfo() {
+    public function getPlaylistInfo($id) {
         $playlist;
-        $playlist_id = 'PLpcSpRrAaOaoIqHQddZOdbRrzr5dJtgSs';
         
-        $playlistPlayer = Http::get($this->api_url . 'playlists?part=player&id=' . $playlist_id . '&key=' . $this->api_key);
-        $playlistSnippet = Http::get($this->api_url . 'playlists?part=snippet&part=player&id=' . $playlist_id . '&key=' . $this->api_key);
+        $playlistPlayer = Http::get($this->api_url . 'playlists?part=player&id=' . $id . '&key=' . $this->api_key);
+        $playlistSnippet = Http::get($this->api_url . 'playlists?part=snippet&part=player&id=' . $id . '&key=' . $this->api_key);
 
         $playlistPlayerJson = $playlistPlayer->json();
         $playlistSnippetJson = $playlistSnippet->json();
